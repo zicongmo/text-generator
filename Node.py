@@ -50,7 +50,7 @@ class Node(object):
             print(self.next_frequency[i])
 
     # Adds the input node to the current node's list of connections
-    # Returns true if a new connection was created, false if the node already existed
+    # Returns the new node if a new connection was created, None if the node already existed
     def add_node(self, n):
         # Search list of nodes to see if node already exists
         for i in range(self.num_connected):
@@ -58,15 +58,15 @@ class Node(object):
                 # Increment the frequency of this particular node and total frequency
                 self.next_frequency[i] += 1
                 self.total_frequency += 1
-                return False
+                return None
         self.next_nodes.append(n)
         self.next_frequency.append(1)
         self.num_connected += 1
         self.total_frequency += 1
-        return True
+        return n
 
     # Adds word_list as if it were a node containing those words
-    # Returns true if a new node was created, false otherwise
+    # Returns the new node if a new node was created, None otherwise
     def add_words(self, word_list):
         # Search list of nodes to see if these words are already in an attached node
         for i in range(self.num_connected):
@@ -74,7 +74,7 @@ class Node(object):
                 # Increment the frequency of this particular node
                 self.next_frequency[i] += 1
                 self.total_frequency += 1
-                return False
+                return None
         # This series of words hasn't come up yet, create a new Node and connect it
         print("Creating new node:")
         new_node = Node(word_list)
@@ -82,7 +82,7 @@ class Node(object):
         self.next_frequency.append(1)
         self.num_connected += 1
         self.total_frequency += 1
-        return True
+        return new_node
 
     # Returns the next node to use based on the relative frequencies in next_frequency
     def next_node(self):
