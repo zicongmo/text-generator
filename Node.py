@@ -2,12 +2,17 @@ from random import randint
 
 
 class Node(object):
+    # Number of words stored per node
+    length = 0
+
     # words: list of the words that are in the node
     # next_nodes: list of all the nodes that the current node can lead to
     # next_frequency: list of the number of times transitioned from current to next node
     # num_connected: number of different nodes connected to current = len(next_nodes)
     # total_frequency: sum of all numbers in next_frequency
     def __init__(self, word_list):
+        self.length = len(word_list)
+
         self.words = word_list
         self.next_nodes = []
         self.next_frequency = []
@@ -25,10 +30,13 @@ class Node(object):
                 return False
         return True
 
-    # Prints all words in node on one line separated by spaces, followed by newline
-    def print_words(self):
+    # Prints up to num words in node on one line separated by spaces, followed by newline
+    # Stops if num > Node.length
+    def print_words(self, num=10):
         print("Words in Node:")
         for i in range(len(self.words)):
+            if i == num:
+                break
             print(self.words[i], end=" ")
         print()
 
@@ -80,21 +88,8 @@ class Node(object):
     def next_node(self):
         r = randint(1, self.total_frequency)
         total = 0
+        # Keep adding frequencies until they exceed the random number
         for i in range(self.num_connected):
             total += self.next_frequency[i]
             if total >= r:
                 return self.next_nodes[i]
-
-
-lst1 = ["How", "are", "you", "today"]
-lst2 = ["How", "are", "you", "today", "sir"]
-node_1 = Node(lst1)
-node_2 = Node(lst2)
-node_2.add_node(node_1)
-node_2.add_words(lst1)
-node_2.add_words(lst1)
-node_2.add_words(lst1)
-node_2.add_words(lst1)
-node_2.add_words(lst1)
-node_2.add_words(lst2)
-node_2.print_full()
