@@ -58,7 +58,7 @@ class NodeList(object):
             else:
                 new_node = current_node.add_node(self.nodes[index])
                 if new_node is None:
-                    current_node = self.nodex[index]
+                    current_node = self.nodes[index]
                 else:
                     current_node = new_node
 
