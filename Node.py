@@ -24,7 +24,6 @@ class Node(object):
 
     # Prints all words in node on one line separated by spaces, followed by newline
     def print_words(self):
-        print()
         print("Words in Node:")
         for i in range(len(self.words)):
             print(self.words[i], end=" ")
@@ -43,7 +42,7 @@ class Node(object):
     # Returns true if a new connection was created, false if the node already existed
     def add_node(self, n):
         # Search list of nodes to see if node already exists
-        for i in range(len(self.next_nodes)):
+        for i in range(self.num_connected):
             if n == self.next_nodes[i]:
                 # Increment the frequency of this particular node and total frequency
                 self.next_frequency[i] += 1
@@ -55,13 +54,29 @@ class Node(object):
         self.total_frequency += 1
         return True
 
+    # Adds word_list as if it were a node containing those words
+    # Returns true if a new node was created, false otherwise
+    def add_words(self, word_list):
+        # Search list of nodes to see if these words are already in an attached node
+        for i in range(self.num_connected):
+            if self.next_nodes[i].words == word_list:
+                # Increment the frequency of this particular node
+                self.next_frequency[i] += 1
+                self.total_frequency += 1
+                return False
+        # This series of words hasn't come up yet, create a new Node and connect it
+        print("Creating new node:")
+        new_node = Node(word_list)
+        self.next_nodes.append(new_node)
+        self.next_frequency.append(1)
+        self.num_connected += 1
+        self.total_frequency += 1
+        return True
+
 lst1 = ["How", "are", "you", "today"]
-lst2 = ["I'm", "doing", "great"]
+lst2 = ["How", "are", "you", "today", "sir"]
 node_1 = Node(lst1)
 node_2 = Node(lst2)
-
-node_1.add_node(node_2)
-node_1.add_node(node_2)
-node_1.print_full()
-
-print(node_1 == node_1)
+node_2.add_node(node_1)
+node_2.add_words(lst1)
+node_2.print_full()
