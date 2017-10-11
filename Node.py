@@ -11,9 +11,11 @@ class Node(object):
         self.num_connected = 0
         self.total_frequency = 0
 
+        self.print_words()
+
     # Returns true if the words in self and other are the same
     def __eq__(self, other):
-        if other is not Node:
+        if self.__class__ != other.__class__:
             return False
         for i in range(len(self.words)):
             if self.words[i] != other.words[i]:
@@ -22,6 +24,8 @@ class Node(object):
 
     # Prints all words in node on one line separated by spaces, followed by newline
     def print_words(self):
+        print()
+        print("Words in Node:")
         for i in range(len(self.words)):
             print(self.words[i], end=" ")
         print()
@@ -29,17 +33,35 @@ class Node(object):
     # Prints all words in node in addition to all words in attached nodes and frequencies
     def print_full(self):
         self.print_words()
+        print("Connections:")
         for i in range(self.num_connected):
-            for j in range(len(self.next_nodes[i])):
+            for j in range(len(self.next_nodes[i].words)):
                 print(self.next_nodes[i].words[j], end=" ")
             print(self.next_frequency[i])
 
+    # Adds the input node to the current node's list of connections
+    # Returns true if a new connection was created, false if the node already existed
     def add_node(self, n):
+        # Search list of nodes to see if node already exists
         for i in range(len(self.next_nodes)):
             if n == self.next_nodes[i]:
+                # Increment the frequency of this particular node and total frequency
                 self.next_frequency[i] += 1
                 self.total_frequency += 1
+                return False
+        self.next_nodes.append(n)
+        self.next_frequency.append(1)
+        self.num_connected += 1
+        self.total_frequency += 1
+        return True
 
-lst = ["How", "are", "you", "today"]
-node_1 = Node(lst)
-node_1.print_words()
+lst1 = ["How", "are", "you", "today"]
+lst2 = ["I'm", "doing", "great"]
+node_1 = Node(lst1)
+node_2 = Node(lst2)
+
+node_1.add_node(node_2)
+node_1.add_node(node_2)
+node_1.print_full()
+
+print(node_1 == node_1)
