@@ -33,7 +33,6 @@ class Node(object):
     # Prints up to num words in node on one line separated by spaces, followed by newline
     # Stops if num > Node.length
     def print_words(self, num=10):
-        print("Words in Node:")
         for i in range(len(self.words)):
             if i == num:
                 break
@@ -42,6 +41,7 @@ class Node(object):
 
     # Prints all words in node in addition to all words in attached nodes and frequencies
     def print_full(self):
+        print("Words in Node")
         self.print_words()
         print("Connections:")
         for i in range(self.num_connected):
@@ -86,6 +86,8 @@ class Node(object):
 
     # Returns the next node to use based on the relative frequencies in next_frequency
     def next_node(self):
+        if self.total_frequency == 0:
+            return None
         r = randint(1, self.total_frequency)
         total = 0
         # Keep adding frequencies until they exceed the random number
