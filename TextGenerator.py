@@ -7,8 +7,6 @@ from random import randint
 def generate_text(text, length=100, node_length=2):
     node_list = NodeList(text, node_length)
     current_node = node_list.get(randint(0, node_list.length-1))
-    node_list.print_nodes()
-    print(node_list.length)
     generated_text = []
     for i in range(node_length):
         if i == length:
@@ -28,4 +26,4 @@ try:
 except FileNotFoundError:
     print("Sorry! File was not found")
 
-print(generate_text(data))
+print(generate_text(data, node_length=3))

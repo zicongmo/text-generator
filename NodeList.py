@@ -36,8 +36,7 @@ class NodeList(object):
         index = self.contains(init_list)
         if index == -1:
             current_node = Node(init_list)
-            self.nodes.append(current_node)
-            self.length += 1
+            self.append_node(current_node)
         else:
             current_node = self.nodes[index]
 
@@ -49,11 +48,9 @@ class NodeList(object):
             w.popleft()
 
             index = self.contains(list(w))
-            current_node.print_words()
             if index == -1:
                 new_node = current_node.add_words(list(w))
-                self.nodes.append(new_node)
-                self.length += 1
+                self.append_node(new_node)
                 current_node = new_node
             else:
                 new_node = current_node.add_node(self.nodes[index])
@@ -74,3 +71,7 @@ class NodeList(object):
     def print_nodes(self):
         for i in range(self.length):
             self.nodes[i].print_full()
+
+    def append_node(self, node):
+        self.nodes.append(node)
+        self.length += 1
