@@ -46,9 +46,28 @@ def generate_text(text, length=100, node_length=2, start_words=None, start_strin
         generated_text.append(current_node.words[node_length-1])
     return generated_text
 
-try:
-    with open("text.txt") as my_file:
-        data = my_file.read()
-    print(generate_text(data, node_length=3, start_string="went to the"))
-except FileNotFoundError:
-    print("Sorry! File was not found")
+if __name__ == "__main__":
+    import sys
+    l = 0
+    if len(sys.argv) == 1:
+        print("Error: Input file not specified")
+        exit(1)
+    elif len(sys.argv) == 3:
+        l = sys.argv[2]
+    try:
+        with open(str(sys.argv[1])) as my_file:
+            data = my_file.read()
+        if len(sys.argv) == 2:
+            print("Warning: Length of generated text not specified")
+            print(generate_text(data))
+        else:
+            print(generate_text(data, length=l))
+    except FileNotFoundError:
+        print("Sorry! File was not found")
+# else:
+#     try:
+#         with open("text.txt") as my_file:
+#             data = my_file.read()
+#         print(generate_text(data, node_length=3, start_string="went to the"))
+#     except FileNotFoundError:
+#         print("Sorry! File was not found")
